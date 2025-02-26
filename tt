@@ -1,0 +1,76 @@
+from tkinter import *
+import tkinter as tk
+from tkinter import ttk
+
+# Main Window
+root = tk.Tk()
+root.title("AUBE tv Clone - Tkinter")
+root.geometry("1200x700")
+root.configure(bg="black")
+
+# --- Top Navigation Bar ---
+top_bar = tk.Frame(root, bg="black", height=50)
+top_bar.pack(fill="x")
+
+logo = tk.Label(top_bar, text="AUBE.TV", font=("Arial", 20, "bold"), fg="orange", bg="black")
+logo.pack(side="left", padx=20, pady=10)
+
+nav_items = ["ACTION", "DRAMA", "Videos", "HOROR", "ROMANCE", "More"]
+for item in nav_items:
+    btn = tk.Button(top_bar, text=item, font=("Arial", 12), bg="black", fg="white", relief="flat")
+    btn.pack(side="left", padx=10)
+
+pricing_btn = tk.Label(top_bar, text="About", font=("Arial", 12), fg="gold", bg="black")
+pricing_btn.pack(side="right", padx=15)
+
+signin_btn = tk.Button(top_bar, text="Sign In", font=("Arial", 12), bg="black", fg="white", relief="solid", borderwidth=1)
+signin_btn.pack(side="right", padx=10, pady=5)
+
+# --- Hero Section (Search Bar & Background Image) ---
+hero_section = tk.Frame(root, bg="black")
+hero_section.pack(fill="both", expand=True)
+
+
+
+sub_text = tk.Label(hero_section, text="Everything you need", font=("Arial", 14), fg="gray", bg="black")
+sub_text.pack()
+
+# Search Bar
+search_frame = tk.Frame(hero_section, bg="black")
+search_frame.pack(pady=20)
+
+search_icon = tk.Label(search_frame, text="🔍", font=("Arial", 14), bg="gray", fg="white")
+search_icon.pack(side="left", padx=10)
+
+search_entry = tk.Entry(search_frame, width=50, font=("Arial", 14), bg="white", relief="solid", bd=1)
+search_entry.pack(side="left", ipady=5, padx=5)
+
+create_btn = tk.Button(search_frame, text="Search", font=("Arial", 14, "bold"), bg="orange", fg="black", relief="solid")
+create_btn.pack(side="left", padx=5)
+
+# --- Centered Thumbnails Section ---
+thumbnails_section = tk.Frame(root, bg="black")
+thumbnails_section.pack(expand=True)
+
+categories = [
+    ("Movie", "Likes"),
+    ("Movie", "Likes"),
+    ("Movie", "Likes"),
+    ("Movie", "Likes"),
+    ("Movie", "Likes"),
+    ("Movie", "Likes"),
+]
+
+thumbnail_container = tk.Frame(thumbnails_section, bg="black")
+thumbnail_container.pack(anchor="center")
+
+for category, desc in categories:
+    card = tk.Frame(thumbnail_container, bg="gray", width=200, height=150)
+    card.pack(side="left", padx=10, pady=10)
+    
+    tk.Label(card, text="Thumbnail", bg="darkgray", fg="white", font=("Arial", 14), height=5).pack(expand=True, fill="both")
+    tk.Label(card, text=category, bg="black", fg="white", font=("Arial", 12), wraplength=200).pack()
+    tk.Label(card, text=desc, bg="black", fg="gray", font=("Arial", 10)).pack()
+
+# Run Tkinter
+root.mainloop()
