@@ -1,0 +1,96 @@
+from tkinter import *
+import tkinter as tk
+from tkinter import ttk
+
+# Main Window
+root = tk.Tk()
+root.title("AUBE tv Clone - Tkinter")
+root.geometry("1200x700")
+root.configure(bg="black")
+
+# --- Top Navigation Bar ---
+top_bar = tk.Frame(root, bg="black", height=50)
+top_bar.pack(fill="x")
+
+logo = tk.Label(top_bar, text="AUBE.TV", font=("Arial", 20, "bold"), fg="orange", bg="black")
+logo.pack(side="left", padx=20, pady=10)
+
+nav_items = ["ACTION", "DRAMA", "Videos", "HOROR", "ROMANCE", "More"]
+for item in nav_items:
+    btn = tk.Button(top_bar, text=item, font=("Arial", 12), bg="black", fg="white", relief="flat")
+    btn.pack(side="left", padx=10)
+
+signin_btn = tk.Button(top_bar, text="Sign In", font=("Arial", 12), bg="black", fg="white", relief="solid", borderwidth=3)
+signin_btn.pack(side="right", padx=10, pady=5)
+
+# --- Search Bar ---
+hero_section = tk.Frame(root, bg="black")
+hero_section.pack(fill="both", expand=True)
+
+search_frame = tk.Frame(hero_section, bg="black")
+search_frame.pack(pady=20)
+
+search_entry = tk.Entry(search_frame, width=50, font=("Arial", 14), bg="white", relief="solid", bd=1)
+search_entry.pack(side="left", ipady=5, padx=5)
+
+create_btn = tk.Button(search_frame, text="Search", font=("Arial", 14, "bold"), bg="orange", fg="black", relief="solid")
+create_btn.pack(side="left", padx=5)
+
+# --- Scrollable Thumbnails Section ---
+thumbnails_section = tk.Frame(root, bg="black")
+thumbnails_section.pack(fill="both", expand=True)
+
+canvas = Canvas(thumbnails_section, bg="black", highlightthickness=0)
+canvas.pack(side=LEFT, fill=BOTH, expand=True)
+
+# Bigger Scrollbar (Thicker)
+style = ttk.Style()
+style.configure("Horizontal.TScrollbar", troughcolor="gray", gripcount=0, background="white", borderwidth=30, thickness=25)
+
+scrollbar = ttk.Scrollbar(thumbnails_section, orient=HORIZONTAL, command=canvas.xview, style="Horizontal.TScrollbar")
+scrollbar.pack(side=BOTTOM, fill=X, pady=30)  # Increased padding for a better look
+
+canvas.configure(xscrollcommand=scrollbar.set)
+canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+
+scroll_frame = tk.Frame(canvas, bg="black")
+canvas_window = canvas.create_window((1, 1), window=scroll_frame, anchor="nw")
+
+# Function to add a new thumbnail dynamically
+def add_thumbnail():
+    card = tk.Frame(scroll_frame, bg="gray", width=200, height=200)
+    card.pack(side="left", padx=15, pady=15)
+
+    tk.Label(card, text="Thumbnail", bg="darkgray", fg="white", font=("Arial", 14), height=7).pack(expand=True, fill="both")
+    tk.Label(card, text="Movie", bg="black", fg="white", font=("Arial", 12), wraplength=200).pack()
+    tk.Label(card, text="Likes", bg="black", fg="gray", font=("Arial", 10)).pack()
+
+    # Move "Add More" button to the end
+    add_more_btn.pack_forget()
+    add_more_btn.pack(side="left", padx=15, pady=15)
+
+    # Update scroll region
+    scroll_frame.update_idletasks()
+    canvas.configure(scrollregion=canvas.bbox("all"))
+
+# "Add More" Button (Define it first)
+add_more_btn = tk.Button(scroll_frame, text="+", font=("Arial", 40, "bold"), bg="white", fg="black", relief="solid", command=add_thumbnail)
+
+# Generate Initial Thumbnails
+for _ in range(10):
+    add_thumbnail()
+
+# Pack the "Add More" Button at the end
+add_more_btn.pack(side="left", padx=15, pady=15)
+
+# Ensure frame resizes with content
+def on_frame_configure(event):
+    canvas.configure(scrollregion=canvas.bbox("all"))
+
+scroll_frame.bind("<Configure>", on_frame_configure)
+
+# Run Tkinter
+root.mainloop()
+
+
+
